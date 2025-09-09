@@ -25,6 +25,8 @@
 import {Marker} from "./Marker";
 import {CSS2DObject} from "../util/CSS2DRenderer";
 import {animate, EasingFunctions, htmlToElement} from "../util/Utils";
+import {AnsiUp} from "ansi_up";
+const ansi_up = new AnsiUp()
 
 export class PlayerMarker extends Marker {
 
@@ -148,7 +150,7 @@ export class PlayerMarker extends Marker {
         }
 
         // update name
-        let name = markerData.name || this.data.playerUuid;
+        let name = ansi_up.ansi_to_html(markerData.name) || this.data.playerUuid;
         this.data.name = name;
         if (this.playerNameElement.innerHTML !== name)
             this.playerNameElement.innerHTML = name;

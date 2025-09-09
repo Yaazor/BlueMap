@@ -5,7 +5,7 @@
         <img :src="'maps/' + mapId +  '/assets/playerheads/' + marker.playerUuid + '.png'" alt="playerhead" @error="steve">
       </div>
       <div class="info">
-        <div class="label">{{markerLabel}}</div>
+        <div class="label" v-html="markerLabel"></div>
         <div class="stats">
           <div v-if="appState.debug">
             {{marker.type}}-marker
