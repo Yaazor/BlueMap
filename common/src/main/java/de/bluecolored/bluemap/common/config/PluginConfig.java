@@ -40,6 +40,7 @@ public class PluginConfig {
     private boolean hideInvisible = true;
     private boolean hideSneaking = false;
     private boolean hideDifferentWorld = false;
+    private boolean renderDisplayNames = false;
     private int hideBelowSkyLight = 0;
     private int hideBelowBlockLight = 0;
 
@@ -62,6 +63,10 @@ public class PluginConfig {
 
     public boolean isHideVanished() {
         return hideVanished;
+    }
+
+    public boolean isRenderDisplayNames() {
+        return renderDisplayNames;
     }
 
     public boolean isHideInvisible() {

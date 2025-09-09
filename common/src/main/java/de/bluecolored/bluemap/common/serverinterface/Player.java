@@ -25,7 +25,7 @@
 package de.bluecolored.bluemap.common.serverinterface;
 
 import com.flowpowered.math.vector.Vector3d;
-import de.bluecolored.bluemap.common.plugin.text.Text;
+import net.kyori.adventure.text.Component;
 
 import java.util.UUID;
 
@@ -33,7 +33,8 @@ public abstract class Player {
 
     public abstract UUID getUuid();
 
-    public abstract Text getName();
+    public abstract Component getName();
+    public abstract Component getDisplayName();
 
     public abstract ServerWorld getWorld();
 

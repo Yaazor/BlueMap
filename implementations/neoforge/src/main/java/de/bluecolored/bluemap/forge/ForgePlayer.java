@@ -29,6 +29,9 @@ import de.bluecolored.bluemap.common.plugin.text.Text;
 import de.bluecolored.bluemap.common.serverinterface.Gamemode;
 import de.bluecolored.bluemap.common.serverinterface.Player;
 import de.bluecolored.bluemap.common.serverinterface.ServerWorld;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.identity.Identity;
+import net.kyori.adventure.text.Component;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -54,7 +57,8 @@ public class ForgePlayer extends Player {
     }
 
     private final UUID uuid;
-    private Text name;
+    private Component name;
+    private Component displayName;
     private ServerWorld world;
     private Vector3d position;
     private Vector3d rotation;
@@ -79,8 +83,13 @@ public class ForgePlayer extends Player {
     }
 
     @Override
-    public Text getName() {
+    public Component getName() {
         return this.name;
+    }
+
+    @Override
+    public Component getDisplayName() {
+        return this.displayName;
     }
 
     @Override
@@ -143,7 +152,8 @@ public class ForgePlayer extends Player {
         MobEffectInstance invis = player.getEffect(MobEffects.INVISIBILITY);
         this.invisible = invis != null && invis.getDuration() > 0;
 
-        this.name = Text.of(player.getName().getString());
+        this.name = Component.text(((Audience) player).get(Identity.NAME).get());
+        this.displayName = ((Audience) player).get(Identity.DISPLAY_NAME).get();
 
         Vec3 pos = player.getPosition(1f);
         this.position = new Vector3d(pos.x(), pos.y(), pos.z());

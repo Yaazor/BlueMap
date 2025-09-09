@@ -29,6 +29,7 @@ import de.bluecolored.bluemap.common.plugin.text.Text;
 import de.bluecolored.bluemap.common.serverinterface.Gamemode;
 import de.bluecolored.bluemap.common.serverinterface.Player;
 import de.bluecolored.bluemap.common.serverinterface.ServerWorld;
+import net.kyori.adventure.text.Component;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.Keys;
 import org.spongepowered.api.effect.VanishState;
@@ -52,7 +53,8 @@ public class SpongePlayer extends Player {
     }
 
     private final UUID uuid;
-    private Text name;
+    private Component name;
+    private Component displayName;
     private ServerWorld world;
     private Vector3d position;
     private Vector3d rotation;
@@ -74,8 +76,11 @@ public class SpongePlayer extends Player {
     }
 
     @Override
-    public Text getName() {
+    public Component getName() {
         return this.name;
+    }
+    public Component getDisplayName() {
+        return this.displayName;
     }
 
     @Override
@@ -148,7 +153,8 @@ public class SpongePlayer extends Player {
 
         this.vanished = player.get(Keys.VANISH_STATE).orElse(VanishState.unvanished()).invisible();
 
-        this.name = Text.of(player.name());
+        this.name = Component.text(player.name());
+        this.displayName = player.displayName().get();
         this.position = SpongePlugin.fromSpongeVector(player.position());
         this.rotation = SpongePlugin.fromSpongeVector(player.rotation());
         this.sneaking = player.get(Keys.IS_SNEAKING).orElse(false);

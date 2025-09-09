@@ -29,6 +29,10 @@ import de.bluecolored.bluemap.common.plugin.text.Text;
 import de.bluecolored.bluemap.common.serverinterface.Gamemode;
 import de.bluecolored.bluemap.common.serverinterface.Player;
 import de.bluecolored.bluemap.common.serverinterface.ServerWorld;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.chat.ComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -50,7 +54,8 @@ public class BukkitPlayer extends Player {
     }
 
     private final UUID uuid;
-    private Text name;
+    private Component name;
+    private Component displayName;
     private ServerWorld world;
     private Vector3d position;
     private Vector3d rotation;
@@ -72,8 +77,13 @@ public class BukkitPlayer extends Player {
     }
 
     @Override
-    public Text getName() {
+    public Component getName() {
         return this.name;
+    }
+
+    @Override
+    public Component getDisplayName() {
+        return this.displayName;
     }
 
     @Override
@@ -144,7 +154,8 @@ public class BukkitPlayer extends Player {
         }
         this.vanished = vanished;
 
-        this.name = Text.of(player.getName());
+        this.name = GsonComponentSerializer.gson().deserialize(ComponentSerializer.toString(TextComponent.fromLegacyText(player.getName())));
+        this.displayName = GsonComponentSerializer.gson().deserialize(ComponentSerializer.toString(TextComponent.fromLegacyText(player.getDisplayName())));
 
         Location location = player.getLocation();
         this.position = new Vector3d(location.getX(), location.getY(), location.getZ());

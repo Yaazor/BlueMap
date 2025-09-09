@@ -34,8 +34,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.ComponentSerialization;
-
-import java.util.Objects;
 import java.util.Optional;
 
 public class ForgeCommandSource implements CommandSource {
