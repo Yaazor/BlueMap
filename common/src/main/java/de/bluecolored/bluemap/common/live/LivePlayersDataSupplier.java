@@ -32,7 +32,7 @@ import de.bluecolored.bluemap.common.serverinterface.ServerWorld;
 import de.bluecolored.bluemap.core.logger.Logger;
 import de.bluecolored.bluemap.core.world.World;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
+import net.kyori.adventure.text.serializer.ansi.ANSIComponentSerializer;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
@@ -87,7 +87,7 @@ public class LivePlayersDataSupplier implements Supplier<String> {
                     json.name("uuid").value(player.getUuid().toString());
 
                     Component displayedName = config.isRenderDisplayNames() ? player.getDisplayName() : player.getName();
-                    json.name("name").value(GsonComponentSerializer.gson().serialize(displayedName));
+                    json.name("name").value(ANSIComponentSerializer.ansi().serialize(displayedName));
                     json.name("foreign").value(!isCorrectWorld);
 
                     json.name("position").beginObject();

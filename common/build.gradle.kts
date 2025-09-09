@@ -10,7 +10,7 @@ dependencies {
     api ( project( ":core" ) )
 
     api ( libs.adventure.api )
-    api ( libs.adventure.gson )
+    api ( libs.adventure.ansi )
     api ( libs.bluecommands.core )
 
     compileOnly ( libs.bluecommands.brigadier )
