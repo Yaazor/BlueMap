@@ -31,6 +31,8 @@ dependencies {
         exclude ( group = "com.google.code.gson", module = "gson" )
     }
 
+    implementation(jarJar("net.kyori:adventure-platform-neoforge:6.6.0")!!) // for Minecraft 1.21.5
+
     jarJar ( libs.flow.math.get().group, libs.flow.math.get().name , "[${libs.flow.math.get().version},)" )
     jarJar ( libs.bluenbt.get().group, libs.bluenbt.get().name , "[${libs.bluenbt.get().version},)" )
 }
@@ -45,7 +47,7 @@ tasks.shadowJar {
     }
 
     // adventure
-    relocate ("net.kyori", "de.bluecolored.shadow.adventure")
+    //relocate ("net.kyori", "de.bluecolored.shadow.adventure")
 
     // airlift
     relocate ("io.airlift", "de.bluecolored.shadow.airlift")

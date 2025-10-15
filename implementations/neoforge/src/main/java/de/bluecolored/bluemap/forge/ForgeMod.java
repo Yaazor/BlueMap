@@ -36,6 +36,7 @@ import de.bluecolored.bluemap.common.serverinterface.ServerEventListener;
 import de.bluecolored.bluemap.common.serverinterface.ServerWorld;
 import de.bluecolored.bluemap.core.BlueMap;
 import de.bluecolored.bluemap.core.logger.Logger;
+import net.kyori.adventure.platform.modcommon.MinecraftServerAudiences;
 import net.minecraft.SharedConstants;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.registries.Registries;
@@ -52,6 +53,7 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.neoforge.event.server.ServerStoppedEvent;
 import net.neoforged.neoforge.event.server.ServerStoppingEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import org.apache.logging.log4j.LogManager;
@@ -73,6 +75,15 @@ public class ForgeMod implements Server {
     private int playerUpdateIndex = 0;
     private final Map<UUID, Player> onlinePlayerMap;
     private final List<ForgePlayer> onlinePlayerList;
+    private volatile MinecraftServerAudiences adventure;
+
+    public MinecraftServerAudiences adventure() {
+        MinecraftServerAudiences ret = this.adventure;
+        if(ret == null) {
+            throw new IllegalStateException("Tried to access Adventure without a running server!");
+        }
+        return ret;
+    }
 
     public ForgeMod() {
         Logger.global.clear();
@@ -92,6 +103,8 @@ public class ForgeMod implements Server {
 
         NeoForge.EVENT_BUS.register(this);
         NeoForge.EVENT_BUS.register(this.eventForwarder);
+        NeoForge.EVENT_BUS.addListener((ServerStartingEvent e) -> this.adventure = MinecraftServerAudiences.of(e.getServer()));
+        NeoForge.EVENT_BUS.addListener((ServerStoppedEvent e) -> this.adventure = null);
     }
 
     @SubscribeEvent

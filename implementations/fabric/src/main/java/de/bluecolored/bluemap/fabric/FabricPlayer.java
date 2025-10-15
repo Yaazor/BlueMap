@@ -149,9 +149,8 @@ public class FabricPlayer extends Player {
         StatusEffectInstance invis = player.getStatusEffect(StatusEffects.INVISIBILITY);
         this.invisible = invis != null && invis.getDuration() > 0;
 
-
-        this.name = Component.text(((Audience) player).get(Identity.NAME).get());
-        this.displayName = ((Audience) player).get(Identity.DISPLAY_NAME).get();
+        this.name = Component.text(player.get(Identity.NAME).get());
+        this.displayName = player.get(Identity.DISPLAY_NAME).get();
 
         Vec3d pos = player.getPos();
         this.position = new Vector3d(pos.getX(), pos.getY(), pos.getZ());

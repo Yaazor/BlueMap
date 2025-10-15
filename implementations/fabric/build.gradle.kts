@@ -30,6 +30,7 @@ dependencies {
     modImplementation ("net.fabricmc:fabric-loader:${fabricLoaderVersion}")
     modImplementation ("net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}")
     modImplementation ( libs.fabric.permissions )
+    modImplementation(include("net.kyori:adventure-platform-fabric:6.6.0")!!) // for Minecraft 1.21.5
 
     shadowInclude ( libs.bluecommands.brigadier ) {
         exclude ( group = "com.mojang", module = "brigadier" )
@@ -54,7 +55,7 @@ tasks.shadowJar {
     }
 
     // adventure
-    relocate ("net.kyori", "de.bluecolored.shadow.adventure")
+    // relocate ("net.kyori", "de.bluecolored.shadow.adventure")
 
     // airlift
     relocate ("io.airlift", "de.bluecolored.shadow.airlift")

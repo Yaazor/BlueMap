@@ -41,7 +41,7 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
-import net.kyori.adventure.text.serializer.json.JSONComponentSerializer;
+import net.kyori.adventure.platform.modcommon.MinecraftServerAudiences;
 import net.minecraft.SharedConstants;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
@@ -69,6 +69,16 @@ public class FabricMod implements ModInitializer, Server {
     private int playerUpdateIndex = 0;
     private final Map<UUID, Player> onlinePlayerMap;
     private final List<FabricPlayer> onlinePlayerList;
+
+    private volatile MinecraftServerAudiences adventure;
+
+    public MinecraftServerAudiences adventure() {
+        MinecraftServerAudiences ret = this.adventure;
+        if (ret == null) {
+            throw new IllegalStateException("Tried to access Adventure without a running server!");
+        }
+        return ret;
+    }
 
     public FabricMod() {
         Logger.global.clear();
@@ -119,6 +129,9 @@ public class FabricMod implements ModInitializer, Server {
             pluginInstance.unload();
             Logger.global.logInfo("BlueMap unloaded!");
         });
+
+        ServerLifecycleEvents.SERVER_STARTING.register(server -> this.adventure = MinecraftServerAudiences.of(server));
+        ServerLifecycleEvents.SERVER_STOPPED.register(server -> this.adventure = null);
 
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             this.onPlayerJoin(server, handler.getPlayer());
